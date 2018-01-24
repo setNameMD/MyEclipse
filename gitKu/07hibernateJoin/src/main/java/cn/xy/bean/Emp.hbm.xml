@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- 员工 对应的  映射文件-->
+<hibernate-mapping package="cn.xy.bean">
+
+
+    <class name="Emp">
+        <id name="empId" column="empId">
+           <generator class="assigned"/>
+        </id>
+        <property name="name"/>
+        <property name="sal"/>
+        <property name="job"/>
+        <!--多个员工属于一个部门-->
+        <many-to-one name="dept" column="deptNo" class="Dept"/>
+     </class>
+     <!--hql 命名查询 -->
+     <query name="getAllEmps">
+     	<![CDATA[
+     		from Emp
+     	]]>
+     </query>
+     <!-- sql查询 -->
+     <sql-query name="getEmps">
+    
+     	<![CDATA[
+     		select * from emp
+     	]]>
+     </sql-query>
+     <!-- 携带条件查询  -->
+      <sql-query name="getEmpId">
+     	<![CDATA[
+     		select * from emp where empId=:id
+     	]]>
+     </sql-query>
+     <!-- hql携带条件查询 返回对象 -->
+     <sql-query name="emp">
+     <return-scalar column="empId"/>
+     <return-scalar column="name"/>
+     <return-scalar column="sal"/>
+     <return-scalar column="job"/>
+     	<![CDATA[
+     		select empId,name,sal,job from emp where empId=:id
+     	]]>
+     </sql-query>
+</hibernate-mapping>
